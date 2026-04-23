@@ -138,14 +138,14 @@ body{
 /* Prize reveal (underneath the canvas) */
 .prize-reveal{
   background:var(--off-white);
-  padding:36px 28px 32px;
+  padding:16px 28px 20px;
   text-align:center;
   min-height:240px;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:8px;
+  gap:4px;
 }
 .prize-badge{
   display:inline-block;
@@ -159,24 +159,28 @@ body{
   padding:5px 14px;
   border-radius:2px;
 }
+.prize-badge:empty{display:none;}
 .prize-icon{
   font-size:36px;
   line-height:1;
   display:block;
 }
+.prize-icon:empty{display:none;}
 .prize-name{
   font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(30px,7.5vw,44px);
+  font-size:clamp(38px,10vw,62px);
   line-height:1.0;
   color:var(--black);
   letter-spacing:2px;
+  margin-top:4px;
 }
 .prize-name .red{color:var(--red);}
 .prize-partner-logo{
-  max-width:180px;
+  width:auto;
+  max-width:240px;
   height:auto;
   display:block;
-  margin:4px auto;
+  margin:0 auto 2px;
   opacity:0.95;
 }
 .prize-value{
@@ -354,6 +358,14 @@ body{
   letter-spacing:3px;
   margin-bottom:12px;
 }
+.win-strikethrough{
+  font-family:'Barlow',sans-serif;
+  font-size:13px;
+  color:#aaa;
+  text-decoration:line-through;
+  margin-top:-8px;
+  margin-bottom:14px;
+}
 .win-urgency{
   background:#fff5f5;
   border:1px solid #ffcccc;
@@ -495,9 +507,9 @@ body{
       <div class="prize-reveal" id="prizeReveal">
         <div class="prize-badge" id="prizeBadge">YOU WON!</div>
         <div class="prize-icon" id="prizeIcon">🎉</div>
-        <!-- Name text OR partner logo — JS shows one, hides the other -->
-        <div class="prize-name" id="prizeName">—</div>
+        <!-- Logo on top, name text below -->
         <img class="prize-partner-logo" id="prizePartnerLogo" src="" alt="The Foundation" style="display:none;">
+        <div class="prize-name" id="prizeName">—</div>
         <div class="prize-value" id="prizeValue"></div>
       </div>
 
@@ -515,7 +527,7 @@ body{
 
   <p class="spin-disclaimer">
     <strong>Exclusive offer for first-time West Coast Superstar attendees.</strong>
-    This deal is only valid when purchasing the West Coast Superstar ticket bundle offered on this page. Current ticket holders are not eligible for this offer, and existing purchases are non-refundable. By submitting you agree to the terms of this offer.
+    Current ticket holders are not eligible for this offer, and existing purchases are non-refundable. By submitting you agree to the terms of this offer.
   </p>
 
 </div><!-- /.page -->
@@ -530,13 +542,14 @@ body{
     <div class="win-eyebrow">🎉 YOU WON!</div>
     <div class="win-headline" id="winHeadline">PRIZE HEADLINE</div>
     <div class="win-price" id="winPrice">PRIZE VALUE</div>
+    <div class="win-strikethrough" id="winStrikethrough"></div>
     <div class="win-urgency">⚡ This offer expires when you leave this page</div>
     <div class="win-sub" id="winSub">Prize description.</div>
     <a class="cta-link" id="winCta" href="#" target="_blank">CLAIM MY PRIZE →</a>
     <div class="win-note" id="winNote">West Coast Superstar Retreat · June 2–5 · San Diego</div>
     <p class="spin-disclaimer" style="margin-top:14px;">
       <strong>Exclusive offer for first-time West Coast Superstar attendees.</strong>
-      This deal is only valid when purchasing the West Coast Superstar ticket bundle offered on this page. Current ticket holders are not eligible for this offer, and existing purchases are non-refundable. By submitting you agree to the terms of this offer.
+      Current ticket holders are not eligible for this offer, and existing purchases are non-refundable. By submitting you agree to the terms of this offer.
     </p>
   </div>
 </div>
@@ -567,74 +580,23 @@ body{
 // ═══════════════════════════════════════════════════════
 const PRIZES = [
 
-  // ── BUNDLE 1 ── Event Ticket + 90 Days with Mike ($50)
+  // ── DEAL ── West Coast Superstar Ticket · 50% Off ($200)
   {
-    badge:       '🔥 BEST VALUE',
-    icon:        '🎫',
-    name:        'EVENT TICKET\n+ 90 DAYS WITH MIKE',
-    value:       'ONLY $50 · NORMALLY $900',
-    partnerLogo: '',  // no partner logo for this bundle
-    banner:      'BEST VALUE BUNDLE',
-    headline:    'EVENT TICKET + 90 DAYS WITH MIKE',
-    price:       'ONLY $50',
-    sub:         'You unlocked the best value bundle — get your West Coast Superstar event ticket <strong>plus 90 Days with Mike, all for just $50.</strong> This offer is normally $900 and is only available right here, right now.',
-    cta:         'CLAIM MY TICKET + 90 DAYS →',
-    ctaUrl:      '#CONFIGURE-HUBSPOT-CHECKOUT-1',   // ← replace before launch
-    note:        'West Coast Superstar Retreat · June 2–5 · San Diego · Normally $900',
-    weight:      20,
-  },
-
-  // ── BUNDLE 2 ── Event Ticket + The Foundation (with logo)
-  {
-    badge:       '🏆 FOUNDATION BUNDLE',
-    icon:        '😊',
-    name:        'EVENT TICKET\n+ THE FOUNDATION',
-    value:       'BUNDLED TOGETHER',
-    partnerLogo:     'The Foundation Logo.png',   // ← swap with actual logo filename/path
-    logoReplacesName: true,
-    namePrefix:      'TICKET +',
-    banner:      'FOUNDATION BUNDLE',
-    headline:    'EVENT TICKET + THE FOUNDATION',
-    price:       'BUNDLED TOGETHER',
-    sub:         'You scratched and revealed the Foundation Bundle — your West Coast Superstar event ticket <strong>bundled together with The Foundation program.</strong> Use your exclusive link below to lock this in.',
-    cta:         'CLAIM MY TICKET + FOUNDATION →',
-    ctaUrl:      '#CONFIGURE-HUBSPOT-CHECKOUT-2',   // ← replace before launch
-    note:        'West Coast Superstar Retreat · June 2–5 · San Diego',
-    weight:      20,
-  },
-
-  // ── BUNDLE 3 ── Audio Bundle: MF Real Estate Script Book
-  {
-    badge:       '🎧 AUDIO BUNDLE',
-    icon:        '📝✏️',
-    name:        'MIKE FERRY\nREAL ESTATE SCRIPT BOOK',
-    value:       'AUDIO BUNDLE INCLUDED',
-    partnerLogo: '',
-    banner:      'AUDIO BUNDLE',
-    headline:    'MIKE FERRY REAL ESTATE SCRIPT BOOK',
-    price:       'AUDIO BUNDLE',
-    sub:         'You\'ve unlocked the Audio Bundle — the <strong>Mike Ferry Real Estate Script Book audio bundle</strong> is yours. The scripts that have closed millions in production, now in audio format.',
-    cta:         'CLAIM MY AUDIO BUNDLE →',
-    ctaUrl:      '#CONFIGURE-HUBSPOT-CHECKOUT-3',   // ← replace before launch
-    note:        'West Coast Superstar Retreat · June 2–5 · San Diego',
-    weight:      30,
-  },
-
-  // ── BUNDLE 4 ── High Volume Selling Pre-Qualifying + Real Estate Test Audio
-  {
-    badge:       '🎙 AUDIO PACK',
-    icon:        '🏠',
-    name:        'HIGH VOLUME SELLING\n+ REAL ESTATE TEST AUDIO',
-    value:       'PRE-QUALIFYING PROCESS INCLUDED',
-    partnerLogo: '',
-    banner:      'AUDIO PACK BUNDLE',
-    headline:    'HIGH VOLUME SELLING PRE-QUALIFYING PROCESS + REAL ESTATE TEST AUDIO',
-    price:       'AUDIO PACK',
-    sub:         'You scratched and won the Audio Pack — <strong>High Volume Selling Pre-Qualifying Process plus the Real Estate Test Audio Download.</strong> Two powerful tools to sharpen your sales process.',
-    cta:         'CLAIM MY AUDIO PACK →',
-    ctaUrl:      '#CONFIGURE-HUBSPOT-CHECKOUT-4',   // ← replace before launch
-    note:        'West Coast Superstar Retreat · June 2–5 · San Diego',
-    weight:      30,
+    badge:         '',
+    icon:          '',
+    name:          '50% OFF EARLY BIRD TICKETS',
+    value:         '',
+    partnerLogo:   'Superstar Retreat Logo.png',
+    logoReplacesName: false,
+    banner:        'UP TO $1,000 IN VALUE',
+    headline:      'WEST COAST SUPERSTAR TICKETS',
+    price:         'ONLY $200 EACH',
+    strikethrough: 'Normally $500 per ticket',
+    sub:           'That\'s <strong>50% off early bird pricing</strong> — this weekend, online only. Offer ends Sunday.',
+    cta:           'CLAIM MY $200 TICKETS NOW →',
+    ctaUrl:        'https://mikeferry.short.gy/WSSR-150-Checkout',
+    note:          'Up to 2 discounted tickets per person.',
+    weight:        100,
   },
 
 ];
@@ -645,7 +607,7 @@ const PRIZES = [
 //  Set START and DEADLINE in UTC before going live.
 // ═══════════════════════════════════════════════════════
 const START    = new Date('2026-04-20T00:00:00Z'); // ← set your open date/time (UTC)
-const DEADLINE = new Date('2026-04-27T07:00:00Z'); // ← set your close date/time (UTC)
+const DEADLINE = new Date('2026-04-27T17:00:00Z'); // Monday 9am PST
 
 
 // ═══════════════════════════════════════════════════════
@@ -673,16 +635,14 @@ document.getElementById('prizeValue').textContent = PRIZE.value;
 const nameEl = document.getElementById('prizeName');
 const logoEl = document.getElementById('prizePartnerLogo');
 
-if (PRIZE.logoReplacesName && PRIZE.partnerLogo) {
-  // Foundation bundle: show "TICKET +" above the logo
-  nameEl.innerHTML     = PRIZE.namePrefix || '';
-  nameEl.style.display = 'block';
+// Show text name
+nameEl.innerHTML     = PRIZE.name.replace('\n','<br>');
+nameEl.style.display = 'block';
+// Show logo beneath name if provided
+if (PRIZE.partnerLogo) {
   logoEl.src           = PRIZE.partnerLogo;
   logoEl.style.display = 'block';
 } else {
-  // All other bundles: show text name, hide logo
-  nameEl.innerHTML     = PRIZE.name.replace('\n','<br>');
-  nameEl.style.display = 'block';
   logoEl.style.display = 'none';
 }
 
@@ -693,8 +653,9 @@ if (PRIZE.logoReplacesName && PRIZE.partnerLogo) {
 document.getElementById('winBanner').innerHTML  =
   PRIZE.banner + ' &nbsp;·&nbsp; <span>West Coast Superstar</span>';
 document.getElementById('winHeadline').textContent = PRIZE.headline;
-document.getElementById('winPrice').textContent    = PRIZE.price;
-document.getElementById('winSub').innerHTML        = PRIZE.sub;
+document.getElementById('winPrice').textContent          = PRIZE.price;
+document.getElementById('winStrikethrough').textContent  = PRIZE.strikethrough || '';
+document.getElementById('winSub').innerHTML               = PRIZE.sub;
 document.getElementById('winCta').textContent      = PRIZE.cta;
 document.getElementById('winCta').href             = PRIZE.ctaUrl;
 document.getElementById('winNote').textContent     = PRIZE.note;
