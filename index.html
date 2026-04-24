@@ -146,6 +146,7 @@ body{
   align-items:center;
   justify-content:center;
   gap:4px;
+  opacity:0; /* hidden until canvas is drawn on top */
 }
 .prize-badge{
   display:inline-block;
@@ -494,7 +495,7 @@ body{
     <!-- Red top header band -->
     <div class="card-header">
       <div class="card-header-left">WEST COAST<br>SUPERSTAR</div>
-      <div class="card-header-right">EXCLUSIVE<br>BUNDLE<br>REVEAL</div>
+      <div class="card-header-right">REVEAL<br>YOUR<br>SAVINGS</div>
     </div>
 
     <!-- Black sub-header -->
@@ -508,7 +509,7 @@ body{
         <div class="prize-badge" id="prizeBadge">YOU WON!</div>
         <div class="prize-icon" id="prizeIcon">🎉</div>
         <!-- Logo on top, name text below -->
-        <img class="prize-partner-logo" id="prizePartnerLogo" src="" alt="The Foundation" style="display:none;">
+        <img class="prize-partner-logo" id="prizePartnerLogo" src="" alt="West Coast Superstar Retreat" style="display:none;">
         <div class="prize-name" id="prizeName">—</div>
         <div class="prize-value" id="prizeValue"></div>
       </div>
@@ -566,7 +567,7 @@ body{
     <div class="inactive-rule"></div>
     <div class="inactive-body">This scratch card is not active right now.</div>
     <div class="inactive-sub">Check back later — new deals drop regularly.<br>In the meantime, explore all of our upcoming events below.</div>
-    <a class="shop-link" href="https://mikeferry.com" target="_blank">VISIT MIKEFERRY.COM →</a>
+    <a class="shop-link" href="https://mikeferry.short.gy/SSV2026" target="_blank">GET EARLY BIRD TICKETS + 3 FREE MONTHS OF THE VAULT →</a>
     <div class="inactive-note">The Mike Ferry Organization &nbsp;·&nbsp; mikeferry.com</div>
   </div>
 </div>
@@ -606,8 +607,8 @@ const PRIZES = [
 //  ACTIVE WINDOW
 //  Set START and DEADLINE in UTC before going live.
 // ═══════════════════════════════════════════════════════
-const START    = new Date('2026-04-20T00:00:00Z'); // ← set your open date/time (UTC)
-const DEADLINE = new Date('2026-04-27T17:00:00Z'); // Monday 9am PST
+const START    = new Date('2026-04-24T23:15:00Z'); // Friday 4:15 PM PDT
+const DEADLINE = new Date('2026-04-27T15:00:00Z'); // Monday 8:00 AM PDT
 
 
 // ═══════════════════════════════════════════════════════
@@ -687,6 +688,7 @@ function initCanvas() {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
   drawScratchSurface(rect.width, rect.height);
+  document.getElementById('prizeReveal').style.opacity = '1';
 }
 
 // ── Draw the metallic scratch surface ────────────────
@@ -820,7 +822,7 @@ function triggerReveal() {
   canvas.style.pointerEvents = 'none';
 
   const prog = document.getElementById('scratchProgress');
-  prog.textContent = 'You revealed your bundle! ';
+  prog.textContent = 'You revealed your savings!';
   prog.style.color = 'var(--red)';
 
   // Show win overlay after reveal fades
